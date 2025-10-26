@@ -79,12 +79,6 @@ contents/ui/
 ### Dependencies
 - KDE Plasma 6
 
-### Adding Features
-1. Keep components modular and single-responsibility
-2. Use signals for cross-component communication
-3. Prefer property bindings over imperative updates
-4. Test drag operations and animations thoroughly
-
 ## License
 
 This project is free software; you can redistribute it and/or modify it under the terms of your preferred open source license.
