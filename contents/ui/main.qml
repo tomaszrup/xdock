@@ -65,7 +65,7 @@ PlasmoidItem {
     Layout.minimumWidth: 60
     Layout.minimumHeight: 48
     Layout.preferredHeight: parent.height
-    Layout.fillWidth: true
+    Layout.preferredWidth: iconSize * appModel.count + iconSpacing * Math.max(0, appModel.count - 1) + 80
     
     Behavior on animatedDockWidth {
         NumberAnimation {
