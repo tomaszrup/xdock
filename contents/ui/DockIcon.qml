@@ -49,7 +49,8 @@ Item {
     anchors.verticalCenter: parent ? parent.verticalCenter : undefined
     anchors.verticalCenterOffset: -iconSize / maxScale / 2
 
-    readonly property real myCenter: ListView.view ? ListView.view.mapToItem(ListView.view.parent, x + width/2, 0).x : 0
+    // Use fixed icon size for center calculation to avoid feedback loop
+    readonly property real myCenter: ListView.view ? ListView.view.mapToItem(ListView.view.parent, x + iconSize/2, 0).x : 0
     readonly property real distance: Math.abs(myCenter - globalMouseX)
     readonly property real influenceRadius: 80
 
@@ -328,7 +329,7 @@ Item {
         color: Qt.rgba(0.7, 0.7, 0.7, 1)
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: -iconSize * 0.39
+        anchors.bottomMargin: -iconSize * 0.36
         visible: wrapper.isRunning
         opacity: 0.9
     }
