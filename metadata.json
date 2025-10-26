@@ -1,0 +1,27 @@
+{
+    "KPlugin": {
+        "Id": "org.kde.plasma.customdock",
+        "Name": "Custom Dock",
+        "Description": "A custom dock widget with animated icons",
+        "Icon": "dashboard",
+        "License": "GPL-2.0+",
+        "Authors": [
+            {
+                "Name": "Custom Author",
+                "Email": "your.email@example.com"
+            }
+        ],
+        "Category": "Windows and Tasks",
+        "Version": "1.0",
+        "Website": "",
+        "ServiceTypes": [
+            "Plasma/Applet"
+        ],
+        "Dependencies": []
+    },
+    "X-Plasma-API": "declarativeappletscript",
+    "X-Plasma-MainScript": "ui/main.qml",
+    "KPackageStructure": "Plasma/Applet",
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-KDE-PluginInfo-EnabledByDefault": true
+}
