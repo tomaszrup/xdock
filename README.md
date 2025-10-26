@@ -29,7 +29,7 @@ A sleek, customizable dock plasmoid for KDE Plasma 6 with macOS-like icon magnif
 1. Clone or download this repository
 2. Copy to your local plasmoids directory:
 ```bash
-cp -r org.kde.plasma.customdock ~/.local/share/plasma/plasmoids/
+cp -r org.kde.plasma.xdock ~/.local/share/plasma/plasmoids/
 ```
 
 3. Restart Plasma Shell:
