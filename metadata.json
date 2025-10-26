@@ -1,14 +1,14 @@
 {
     "KPlugin": {
-        "Id": "org.kde.plasma.customdock",
-        "Name": "Custom Dock",
+        "Id": "org.kde.plasma.xdock",
+        "Name": "XDock",
         "Description": "A custom dock widget with animated icons",
         "Icon": "dashboard",
         "License": "GPL-2.0+",
         "Authors": [
             {
-                "Name": "Custom Author",
-                "Email": "your.email@example.com"
+                "Name": "github.com/tomaszrup",
+                "Email": "example@example.com"
             }
         ],
         "Category": "Windows and Tasks",

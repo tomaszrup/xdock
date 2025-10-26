@@ -1,8 +1,8 @@
-# Custom Dock for KDE Plasma 6
+# XDock for KDE Plasma 6
 
 A sleek, customizable dock plasmoid for KDE Plasma 6 with macOS-like icon magnification effects, drag-and-drop icon management, and window tracking.
 
-![Custom Dock](screenshot.png)
+![XDock](screenshot.png)
 
 ## Features
 
@@ -41,6 +41,9 @@ kquitapp6 plasmashell && plasmashell --replace &
    - Right-click on your panel → "Add Widgets"
    - Search for "Custom Dock"
    - Drag it to your panel
+
+> [!IMPORTANT]
+> For transparent panel background, use the [Panel Colorizer widget](https://github.com/luisbocanegra/plasma-panel-colorizer)
 
 ## Usage
 
