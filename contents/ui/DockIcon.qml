@@ -12,7 +12,12 @@ Item {
     required property var model
     required property int index
     required property var tasksModel
-    
+    required property real iconSize 
+    required property real iconSpacing
+    required property real maxScale
+    property bool anyIconBeingDragged: false
+    property real globalMouseX: -1
+
     // Signals
     signal removeRequested()
     signal launchRequested(string command, string desktopFile)
@@ -27,13 +32,7 @@ Item {
     property int targetIndex: -1
     property int originalIndex: -1
     property real visualDisplacement: 0
-    
-    // Visual properties - passed from root
-    property real iconSize: 48
-    property real iconSpacing: 1
-    property real maxScale: 1.4
-    property bool anyIconBeingDragged: false
-    property real globalMouseX: -1
+
     
     // Check if this app is running
     readonly property bool isRunning: {
@@ -50,7 +49,8 @@ Item {
     anchors.verticalCenterOffset: -iconSize / maxScale / 2
 
     // Use fixed icon size for center calculation to avoid feedback loop
-    readonly property real myCenter: ListView.view ? ListView.view.mapToItem(ListView.view.parent, x + iconSize/2, 0).x : 0
+    // Add width/2 for scaled icons to use their visual center
+    readonly property real myCenter: ListView.view ? ListView.view.mapToItem(ListView.view.parent, x + width/2, 0).x : 0
     readonly property real distance: Math.abs(myCenter - globalMouseX)
     readonly property real influenceRadius: 80
 
@@ -73,16 +73,28 @@ Item {
     width: isOutsideDock ? 0 : iconSize * calculatedScale
     z: scale > 1.0 ? 1 : 0
     
-    transform: Translate {
-        x: wrapper.visualDisplacement
-        
-        Behavior on x {
-            NumberAnimation {
-                duration: 250
-                easing.type: Easing.OutCubic
+    transform: [
+        Translate {
+            x: wrapper.visualDisplacement
+            
+            Behavior on x {
+                NumberAnimation {
+                    duration: 250
+                    easing.type: Easing.OutCubic
+                }
+            }
+        },
+        Translate {
+            y: isRunning ? -5 : 0
+            
+            Behavior on y {
+                NumberAnimation {
+                    duration: 200
+                    easing.type: Easing.OutCubic
+                }
             }
         }
-    }
+    ]
 
     Behavior on width {
         NumberAnimation {

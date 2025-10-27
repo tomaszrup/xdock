@@ -13,6 +13,7 @@ Rectangle {
     property real iconSpacing: 1
     property bool showDebug: false
     property var tasksModel
+    property real iconsOpacity: 1.0
     
     // Icon properties passed to delegates
     property real iconSize: 48
@@ -134,6 +135,14 @@ Rectangle {
             anyIconBeingDragged: dockArea.anyIconBeingDragged
             tasksModel: dockArea.tasksModel
             globalMouseX: iconList.globalMouseX
+            opacity: dockArea.iconsOpacity
+            
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 250
+                    easing.type: Easing.OutCubic
+                }
+            }
             
             onRemoveRequested: {
                 dockArea.removeIcon(index)

@@ -14,11 +14,40 @@ PlasmoidItem {
     toolTipTextFormat: Text.PlainText
     
     // Configuration properties
-    property real iconSize: parent.height * 0.5
+    property real iconSize: Plasmoid.configuration.iconSize
     property real iconSpacing: 1
     property real maxScale: 1.5
     property int iconsOutsideDock: 0
     property bool anyIconBeingDragged: false
+    property real iconsOpacity: 0.0
+    
+    Component.onCompleted: {
+        // Set proper icon size based on parent height
+        if (parent && parent.height > 0) {
+            iconSize = parent.height * 0.5
+        }
+        // Delay icon opacity fade in to let layout settle
+        iconVisibilityTimer.start()
+    }
+    
+    // Update iconSize when parent height changes
+    Connections {
+        target: root.parent
+        function onHeightChanged() {
+            if (root.parent && root.parent.height > 0) {
+                root.iconSize = root.parent.height * 0.5
+            }
+        }
+    }
+    
+    Timer {
+        id: iconVisibilityTimer
+        interval: 300
+        repeat: false
+        onTriggered: {
+            root.iconsOpacity = 1.0
+        }
+    }
     
     // Expose these for Components
     property alias appModel: appModel
@@ -156,6 +185,15 @@ PlasmoidItem {
                 maxScale: root.maxScale
                 showDebug: false // Set to true to enable debug overlay
                 tasksModel: root.taskManager.tasksModel
+                iconsOpacity: root.iconsOpacity
+                opacity: root.iconsOpacity
+                
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 250
+                        easing.type: Easing.OutCubic
+                    }
+                }
                 
                 onDropReceived: function(url) {
                     root.desktopFileReader.readDesktopFile(url)
