@@ -342,7 +342,7 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: -iconSize * 0.36
-        visible: wrapper.isRunning
+        visible: wrapper.isRunning && !wrapper.isBeingDragged
         opacity: 0.9
     }
     
