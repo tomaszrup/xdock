@@ -388,7 +388,7 @@ Item {
         width: 6
         height: 6
         radius: 3
-        color: isActive ? "cyan" : Qt.rgba(0.7, 0.7, 0.7, 1)
+        color: isActive ? Kirigami.Theme.highlightColor : Qt.rgba(0.7, 0.7, 0.7, 1)
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: -iconSize * 0.36

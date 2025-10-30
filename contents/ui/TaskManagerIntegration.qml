@@ -36,7 +36,11 @@ Item {
             var appName = tasksModel.data(idx, TaskManager.TasksModel.AppId)
 
             if (appName.endsWith(modelAppName)) {
-                // Set the icon geometry hint for the magic lamp effect
+                // Check window state first
+                var isActive = tasksModel.data(idx, 272)
+                var isMinimized = tasksModel.data(idx, 279)
+                
+                // Set the icon geometry hint for the magic lamp effect (skip for fullscreen)
                 if (iconGeometry) {
                     tasksModel.requestPublishDelegateGeometry(
                         idx,
@@ -44,10 +48,6 @@ Item {
                         null
                     )
                 }
-                
-                // Check window state
-                var isActive = tasksModel.data(idx, 272)
-                var isMinimized = tasksModel.data(idx, 279)
                 
                 if (isActive) {
                     tasksModel.requestToggleMinimized(idx)
