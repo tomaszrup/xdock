@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import org.kde.kirigami as Kirigami
-import org.kde.taskmanager 0.1 as TaskManager
+import org.kde.taskmanager as TaskManager
 
 Item {
     id: wrapper
@@ -20,7 +20,7 @@ Item {
 
     // Signals
     signal removeRequested()
-    signal launchRequested(string command, string desktopFile)
+    signal launchRequested(string command, string desktopFile, var iconGeometry)
     signal orderChanged(int from, int to)
     signal draggedOutside(bool outside)
     signal visualDisplacementRequested()
@@ -45,6 +45,52 @@ Item {
         return false
     }
 
+    property bool isActive: false
+
+    Connections {
+        target: tasksModel
+        function onDataChanged(topLeft, bottomRight, roles) {
+            if (roles.includes(272)) {  // IsActive role
+                var newValue = false;
+                for (var i = 0; i < tasksModel.count; i++) {
+                    var taskName = tasksModel.data(tasksModel.index(i, 0), TaskManager.TasksModel.AppId)
+                    var active = tasksModel.data(tasksModel.index(i, 0), 272) 
+                    if (taskName.endsWith(model.name)) {
+                        newValue = active;
+                        break;
+                    }
+                }
+                wrapper.isActive = newValue;
+            }
+        }
+        function onRowsInserted() {
+            // Re-evaluate on model changes
+            var newValue = false;
+            for (var i = 0; i < tasksModel.count; i++) {
+                var taskName = tasksModel.data(tasksModel.index(i, 0), TaskManager.TasksModel.AppId)
+                var active = tasksModel.data(tasksModel.index(i, 0), 272) 
+                if (taskName.endsWith(model.name)) {
+                    newValue = active;
+                    break;
+                }
+            }
+            wrapper.isActive = newValue;
+        }
+        function onRowsRemoved() {
+            // Re-evaluate on model changes
+            var newValue = false;
+            for (var i = 0; i < tasksModel.count; i++) {
+                var taskName = tasksModel.data(tasksModel.index(i, 0), TaskManager.TasksModel.AppId)
+                var active = tasksModel.data(tasksModel.index(i, 0), 272) 
+                if (taskName.endsWith(model.name)) {
+                    newValue = active;
+                    break;
+                }
+            }
+            wrapper.isActive = newValue;
+        }
+    }
+
     anchors.verticalCenter: parent ? parent.verticalCenter : undefined
     anchors.verticalCenterOffset: -iconSize / maxScale / 2
 
@@ -52,7 +98,7 @@ Item {
     // Add width/2 for scaled icons to use their visual center
     readonly property real myCenter: ListView.view ? ListView.view.mapToItem(ListView.view.parent, x + width/2, 0).x : 0
     readonly property real distance: Math.abs(myCenter - globalMouseX)
-    readonly property real influenceRadius: 80
+    readonly property real influenceRadius: 85
 
     readonly property real calculatedScale: {
         if (anyIconBeingDragged || globalMouseX < 0 || distance > influenceRadius) {
@@ -275,7 +321,11 @@ Item {
                 iconItem.y = 0
             } else if (mouse.button === Qt.LeftButton) {
                 if (model.launchCommand) {
-                    wrapper.launchRequested(model.launchCommand, model.desktopFile)
+                    // Get the icon's global geometry for animation effects
+                    // Use mapToItem with null to get screen coordinates
+                    var globalPos = iconItem.mapToItem(null, 0, 0)
+                    var iconGeometry = Qt.rect(globalPos.x, globalPos.y, iconItem.width * iconItem.scale, iconItem.height * iconItem.scale)
+                    wrapper.launchRequested(model.launchCommand, model.desktopFile, iconGeometry)
                 }
             } else if (mouse.button === Qt.RightButton) {
                 contextMenu.popup(wrapper, mouse.x + 5, 5)
@@ -322,7 +372,7 @@ Item {
         smooth: true
         transformOrigin: Item.Bottom
         clip: false
-        scale: calculatedScale * (iconSize / (iconSize * maxScale)) - 0.1
+        scale: (calculatedScale * (iconSize / (iconSize * maxScale)) - 0.1).toFixed(2)
         z: wrapper.isBeingDragged ? 1000 : 0
     
         Behavior on scale {
@@ -338,7 +388,7 @@ Item {
         width: 6
         height: 6
         radius: 3
-        color: Qt.rgba(0.7, 0.7, 0.7, 1)
+        color: isActive ? "cyan" : Qt.rgba(0.7, 0.7, 0.7, 1)
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: -iconSize * 0.36

@@ -25,7 +25,7 @@ Rectangle {
     signal mousePositionChanged(real x)
     signal hoverChanged(bool hovered)
     signal removeIcon(int index)
-    signal launchIcon(string appName, string command, string desktopFile)
+    signal launchIcon(string appName, string command, string desktopFile, var iconGeometry)
     signal moveIcon(int from, int to)
     signal iconDraggedOutside(bool outside)
     signal iconHoverChanged(bool hovered, string tooltipText, var visualParent)
@@ -148,8 +148,8 @@ Rectangle {
                 dockArea.removeIcon(index)
             }
             
-            onLaunchRequested: function(command, desktopFile) {
-                dockArea.launchIcon(model.name, command, desktopFile)
+            onLaunchRequested: function(command, desktopFile, iconGeometry) {
+                dockArea.launchIcon(model.name, command, desktopFile, iconGeometry)
             }
             
             onOrderChanged: function(from, to) {

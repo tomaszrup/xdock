@@ -209,8 +209,8 @@ PlasmoidItem {
                     root.savePinnedApps()
                 }
                 
-                onLaunchIcon: function(appName, command, desktopFile) {
-                    root.taskManager.activateOrLaunch(appName, command)
+                onLaunchIcon: function(appName, command, desktopFile, iconGeometry) {
+                    root.taskManager.activateOrLaunch(appName, command, iconGeometry)
                 }
                 
                 onMoveIcon: function(from, to) {
@@ -281,8 +281,8 @@ PlasmoidItem {
                     root.savePinnedApps()
                 }
                 
-                onLaunchIcon: function(appName, command, desktopFile) {
-                    root.taskManager.activateOrLaunch(appName, command)
+                onLaunchIcon: function(appName, command, desktopFile, iconGeometry) {
+                    root.taskManager.activateOrLaunch(appName, command, iconGeometry)
                 }
                 
                 onMoveIcon: function(from, to) {
